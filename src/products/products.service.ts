@@ -64,13 +64,12 @@ export class ProductsService {
       await this.s3Client.send(
         new PutObjectCommand({
           Bucket: this.bucket,
-          Key: `${productId}.png`,
+          Key: `${productId}.jpeg`,
           Body: file,
         }),
       );
     } catch (error) {
-      const { requestId, cfId, extendedRequestId } = error.$metadata;
-      console.log({ requestId, cfId, extendedRequestId });
+      return error;
     }
   }
 
@@ -87,7 +86,7 @@ export class ProductsService {
       const { Body } = await this.s3Client.send(
         new GetObjectCommand({
           Bucket: this.bucket,
-          Key: `${productId}.png`,
+          Key: `${productId}.jpeg`,
         }),
       );
       return !!Body;
